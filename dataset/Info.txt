@@ -1,1 +1,1 @@
-This folder is used to store the dataset for training and validating the neural network.
+The dataset used for training and validating the neural network is stored here.
