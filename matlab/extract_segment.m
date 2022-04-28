@@ -7,7 +7,7 @@ function extract_segment(data_path, movement, save_path, segment_length)
     
         variance = zeros(180, len_csi-segment_length);
         for iter=1:len_csi-segment_length
-            variance(:, iter)=var(processed_csi_info(: ,iter:iter+segment_length), 0, 2); %calculate variance
+            variance(:, iter)=var(processed_csi_info(: ,iter:iter+segment_length), 0, 2);
         end
         [~, max_col] = max(variance, [], 2);
         center_col = round(mean(max_col)) + segment_length/2;
