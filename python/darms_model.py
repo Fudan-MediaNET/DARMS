@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from transformer_block.model import SwinTransformer
+from transformer_block import SwinTransformer
 
 
 class dualchannel_net(torch.nn.Module):
