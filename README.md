@@ -11,7 +11,7 @@
 
 
 ## Getting Started  
-1. Click [here](https://drive.google.com/drive/folders/1uhvyzDL-A9LQRhdQdebNI9TtZqHBKQlo?usp=sharing) to download the raw CSI data and put it into the raw_data folder.  
+1. Click [here](https://drive.google.com/file/d/1QZXR_L3nofr4SJfpF6q2tRdTqCn7tXMP/view?usp=sharing) to download the raw CSI data and put it into the raw_data folder.  
 
 2. You can quickly use DARMS by running matlab/DARMS_Main.m to genernate the dataset.  
 
