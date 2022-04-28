@@ -25,9 +25,6 @@ class ToilFallDataset(Dataset):
     def append(self, csi, label):
         label_one_hot = np.zeros([self.motion_num], dtype=np.float32)
         label_one_hot[int(label)] = 1
-        # csi_fft = scipy.fftpack.fft(csi, axis=-1)
-        # csi_fft = np.float32(np.abs(csi_fft))
-        # csi_fft = np.reshape(csi_fft, (1, csi_num, -1))
 
         csi_fft = np.zeros([csi_num, segment_length], dtype=np.float32)
         pca = PCA(n_components=1)
@@ -39,14 +36,11 @@ class ToilFallDataset(Dataset):
             csi_fft[i*30:i*30+30, :]  = np.float32(np.abs(Zxx[0:30,0,:-1]))
 
 
-        #csi_fft = csi_fft/np.max(csi_fft, axis= 1, keepdims=True)
         csi_fft = np.reshape(csi_fft, (1, csi_num, -1))
         csi = np.reshape(csi, (1, csi_num, -1))
         data = (torch.from_numpy(csi), torch.from_numpy(csi_fft), torch.from_numpy(label_one_hot))
         self.input.append(data)
-        # hist, bin_edges = np.histogram(csi_fft.ravel(), bins=100)
-        # plt.hist(hist, bins=bin_edges)
-        # plt.show()
+
 
     def __len__(self):
         return len(self.input)
@@ -65,14 +59,14 @@ def train(model, train_loader, epoch, epoch_num, train_size):
     cnt = 0
     for i, data in enumerate(train_loader):
         (csi, csi_fft, labels_onehot) = data
-        # step1，获取inputs，计算outputs
+        # step1
         csi = csi.cuda()
         csi_fft = csi_fft.cuda()
         labels_onehot = labels_onehot.cuda()
 
         predicts_onehot = model(csi, csi_fft)
 
-        # step2，清零梯度，计算loss，反向传播
+        # step2
         optimizer.zero_grad()
         loss = criterion(predicts_onehot, labels_onehot)
         loss.backward()
@@ -123,11 +117,13 @@ def test(model, test_loader, test_size):
         print('Mean Accuracy: {:.4f}'.format(correct_cnt / test_size))
     return all_labels, all_predicts, test_loss/test_size
 
+
 def cal_acc(predicts_onehot, labels_onehot, correct_cnt):
     predicts = torch.argmax(predicts_onehot, dim=-1)
     labels = torch.argmax(labels_onehot, dim=-1)
     res = correct_cnt + torch.sum(predicts == labels)
     return res
+
 
 def load_data(set_name, dataset):
     for key in m.keys():
@@ -143,7 +139,6 @@ def load_data(set_name, dataset):
             csi = np.float32(csi)
             label = np.float32(label)
             dataset.append(csi, label)
-            print(cnt)
 
 
 def main(model):
@@ -162,21 +157,11 @@ def main(model):
         all_labels, all_predicts, train_loss = train(model, train_loader, epoch, epoch_num, train_size)
         cm = confusion_matrix(all_labels, all_predicts)
         acc = np.sum(np.diag(cm))/np.sum(cm)
-        recorder_train['epoch_num'].append(epoch+1)
-        recorder_train['cm'].append(cm.tolist())
-        recorder_train['acc'].append(acc)
-        recorder_train['loss'].append(train_loss)
 
-        if True:#(epoch+1)%5 == 0:
+
+        if (epoch+1)%5 == 0: #Test the model performance every 5 epoch
             all_labels, all_predicts, test_loss = test(model, test_loader, test_size)
             cm = confusion_matrix(all_labels, all_predicts)
-            acc = np.sum(np.diag(cm))/np.sum(cm)
-            recorder_val['epoch_num'].append(epoch+1)
-            recorder_val['cm'].append(cm.tolist())
-            recorder_val['acc'].append(acc)
-            recorder_val['loss'].append(test_loss)
-            print(cm)
-            print("Accuracy of Test is  %f" %(acc))
 
 
 
@@ -197,7 +182,7 @@ if __name__ == '__main__':
     dataset_path = '../dataset/'
     load_data(dataset_path, dataset)
 
-    model = mymodel.twochannel_net(csi_num = 180, frame_len = segment_length, motion_num = len(s))
+    model = mymodel.dualchannel_net(csi_num = 180, frame_len = segment_length, motion_num = len(s))
 
     criterion = torch.nn.CrossEntropyLoss(reduction='sum')
     criterion = criterion.cuda()
@@ -206,12 +191,8 @@ if __name__ == '__main__':
     print(model)
 
     BatchSize = 8
-    epoch_num = 200
+    epoch_num = 100
 
-    if model.__class__.__name__ == 'twochannel_net':
-        torch.cuda.set_device(0)
-    else:
-        torch.cuda.set_device(1)
 
     torch.backends.benchmark = True
     torch.backends.cudnn.deterministic = False
@@ -224,10 +205,3 @@ if __name__ == '__main__':
 
     main(model)
 
-    file_name = model.__class__.__name__  + '_val6' + '.json'
-    with open('./result/' + file_name, 'w') as f:
-        json.dump(recorder_val, f)
-
-    file_name = model.__class__.__name__  + '_train6' + '.json'
-    with open('./result/' + file_name, 'w') as f:
-        json.dump(recorder_train, f)
