@@ -13,9 +13,9 @@
 ## Getting Started  
 1. Click [here](https://drive.google.com/file/d/1QZXR_L3nofr4SJfpF6q2tRdTqCn7tXMP/view?usp=sharing) to download the raw CSI data and put it into the raw_data folder.  
 
-2. You can quickly use DARMS by running matlab/DARMS_Main.m to genernate the dataset.  
+2. Using the python/mat2npy.py to genernate the dataset.  
 
-3. Then runing the python/DARMS_Main.py to train and validate the nerual network.  
+3. Then, you can quickly use DARMS by runing the python/DARMS_Main.py to train and validate the nerual network.  
 
 
 
