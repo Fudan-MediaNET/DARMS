@@ -24,7 +24,7 @@
     ├─ matlab                 // The pre-processsing algorithm programmed with matlab
     ├─ python                 // The nerual network programmed with python
     ├─ raw_data               // The raw CSI data
-    ├─ tmp                    // Storing the tmp file
+    ├─ tmp                    // Storing the intermediate results.
     └─ dataset                // The dataset for training and validating the nerual network
       
 
