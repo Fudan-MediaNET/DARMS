@@ -5,12 +5,12 @@ function extract_segment(data_path, movement, save_path, segment_length)
         load(read_name);
         len_csi = size(processed_csi_info, 2);
     
-        variance = zeros(180, len_csi-segment_length);
-        for iter=1:len_csi-segment_length
-            variance(:, iter)=var(processed_csi_info(: ,iter:iter+segment_length), 0, 2);
-        end
-        [~, max_col] = max(variance, [], 2);
-        center_col = round(mean(max_col)) + segment_length/2;
+        csi_var = movvar(processed_csi_info, segment_length, 0, 2);
+        sum_csi_var = sum(csi_var);
+
+        mov_sum = movsum(sum_csi_var, segment_length);
+        [~, center_col] = max(mov_sum);
+
         first = center_col - (segment_length/2-1);
         last = center_col + segment_length/2;
         if first <= 0
