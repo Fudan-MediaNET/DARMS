@@ -1,1 +1,1 @@
-The intermediate results is storged here.
+The intermediate results is stored here.
