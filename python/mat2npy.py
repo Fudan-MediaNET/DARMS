@@ -15,13 +15,17 @@ for key in m.keys():
         os.makedirs(save_path + key)
 
 for it in files:
+    if it == 'Info.txt':
+        continue
     tmp = it.split('_')
     motion = tmp[0]
+
     matr = io.loadmat(load_path + it)
+
     save_name = motion + '_' + str(cnt[m[motion]]) + '.npy'
     cnt[m[motion]] += 1
     np.save(save_path + motion + '/' + save_name, matr['csi_segment'])
 
-print("Totally converts %d .mat files in to numpy array" % (len(files)))
+print("Totally converts %d .mat files in to numpy array" % (sum(cnt)))
 
 
