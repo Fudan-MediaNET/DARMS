@@ -10,7 +10,7 @@ from matplotlib import pyplot as plt
 import scipy.signal as signal
 import datetime
 import os
-import mymodel
+import darms_model
 from sklearn.metrics import confusion_matrix
 from sklearn.decomposition import PCA
 
@@ -182,7 +182,7 @@ if __name__ == '__main__':
     dataset_path = '../dataset/'
     load_data(dataset_path, dataset)
 
-    model = mymodel.dualchannel_net(csi_num = 180, frame_len = segment_length, motion_num = len(s))
+    model = darms_model.dualchannel_net(csi_num = 180, frame_len = segment_length, motion_num = len(s))
 
     criterion = torch.nn.CrossEntropyLoss(reduction='sum')
     criterion = criterion.cuda()
