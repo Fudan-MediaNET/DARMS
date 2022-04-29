@@ -84,8 +84,8 @@ def train(model, train_loader, epoch, epoch_num, train_size):
         if i % 100 == 0:
             print('Epoch [{}/{}], Loss: {:.4f}'.format(epoch + 1, epoch_num, loss.item()))
 
-    print('Test set: Average loss: {:.4f}'.format(train_loss / (i + 1)))
-    print('Mean Accuracy: {:.4f}'.format(correct_cnt / train_size))
+    print('Train set: Average loss: {:.4f}'.format(train_loss / (i + 1)))
+    print('Train set: Mean Accuracy: {:.4f}'.format(correct_cnt / train_size))
 
     return all_labels, all_predicts, train_loss/train_size
 
@@ -114,7 +114,7 @@ def test(model, test_loader, test_size):
             all_predicts[cnt:cnt + len(labels)] = predicts.cpu().detach().numpy()
             cnt += len(labels)
         print('Test set: Average loss: {:.4f}'.format(test_loss/(i+1)))
-        print('Mean Accuracy: {:.4f}'.format(correct_cnt / test_size))
+        print('Test set: Mean Accuracy: {:.4f}'.format(correct_cnt / test_size))
     return all_labels, all_predicts, test_loss/test_size
 
 
