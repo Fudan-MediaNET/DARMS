@@ -192,7 +192,7 @@ if __name__ == '__main__':
     print(model)
 
     BatchSize = 8
-    epoch_num = 100
+    epoch_num = 200
 
     torch.backends.benchmark = True
     torch.backends.cudnn.deterministic = False
