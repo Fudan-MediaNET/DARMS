@@ -126,6 +126,7 @@ def cal_acc(predicts_onehot, labels_onehot, correct_cnt):
 
 
 def load_data(set_name, dataset):
+    print("Loading the Dataset")
     for key in m.keys():
         path = set_name + key + '/'
         files = os.listdir(path)
@@ -192,7 +193,6 @@ if __name__ == '__main__':
 
     BatchSize = 8
     epoch_num = 100
-
 
     torch.backends.benchmark = True
     torch.backends.cudnn.deterministic = False
