@@ -28,4 +28,13 @@
     └─ dataset                // The dataset for training and validating the nerual network
       
 
+## Citation
+If you feel our data, codes or paper helpful in your research, please cite this work.
 
+@article{gu2022device,
+  title={Device-Free Human Activity Recognition Based on Dual-Channel Transformer Using WiFi Signals},
+  author={Gu, Zhihao and He, Taiwei and Wang, Ziqi and Xu, Yuedong},
+  journal={Wireless Communications and Mobile Computing},
+  volume={2022},
+  publisher={Hindawi}
+}
